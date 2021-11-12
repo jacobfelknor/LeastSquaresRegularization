@@ -85,7 +85,7 @@ lasso_pipeline = Pipeline(steps=[
 
 lasso_pipeline.fit(X_train, y_train)
 nonzero_coeff = np.count_nonzero(lasso.coef_)
-print(f"Lasso Regularization {lasso.alpha_}, Features Used: {nonzero_coeff}")
+print(f"Lasso Regularization, alpha={lasso.alpha_}, Features Used: {nonzero_coeff}")
 print(f"Train Score: {lasso_pipeline.score(X_train, y_train)}")
 print(f"Test Score: {lasso_pipeline.score(X_test, y_test)}")
 
