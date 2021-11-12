@@ -30,8 +30,8 @@ X = houses.values[:, :-1]
 # X = X + (100*np.random.randn(X.shape[1]))
 y = houses.values[:, -1]
 
-# RANDOM STATE 0 SHOWS A GOOD EXAMPLE
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.88, random_state=0)
+# RANDOM STATES [0,12312] SHOW A GOOD EXAMPLE
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.88, random_state=12312)
 
 
 # Preprocessing. Scale Data and fill in missing values
@@ -56,7 +56,7 @@ LR_pipeline = Pipeline(steps=[
 
 LR_pipeline.fit(X_train, y_train)
 
-print("Normal Least Squares")
+print(f"Normal Least Squares, Features Used: {X_train.shape[1]}")
 print(f"Test Score: {LR_pipeline.score(X_train, y_train)}")
 print(f"Train Score: {LR_pipeline.score(X_test, y_test)}")
 print("\n")
@@ -68,7 +68,8 @@ ridge_pipeline = Pipeline(steps=[
 ])
 
 ridge_pipeline.fit(X_train, y_train)
-print(f"Ridge Regularization, alpha={ridge.alpha_}")
+nonzero_coeff = np.count_nonzero(ridge.coef_)
+print(f"Ridge Regularization, alpha={ridge.alpha_}, Features Used: {nonzero_coeff}")
 print(f"Test Score: {ridge_pipeline.score(X_train, y_train)}")
 print(f"Train Score: {ridge_pipeline.score(X_test, y_test)}")
 print("\n")
@@ -81,7 +82,8 @@ lasso_pipeline = Pipeline(steps=[
 ])
 
 lasso_pipeline.fit(X_train, y_train)
-print(f"Lasso Regularization {lasso.alpha_}")
+nonzero_coeff = np.count_nonzero(lasso.coef_)
+print(f"Lasso Regularization {lasso.alpha_}, Features Used: {nonzero_coeff}")
 print(f"Test Score: {lasso_pipeline.score(X_train, y_train)}")
 print(f"Train Score: {lasso_pipeline.score(X_test, y_test)}")
 
