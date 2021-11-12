@@ -14,7 +14,7 @@ from sklearn.pipeline import Pipeline
 
 houses = pd.read_csv('data/train.csv').select_dtypes(include=np.number)
 # houses.select_dtypes(include=np.number)
-print(houses.head())
+# print(houses.head())
 
 X = houses.values[:, :-1]
 y = houses.values[:, -1]
@@ -44,9 +44,10 @@ LR_pipeline = Pipeline(steps=[
 
 LR_pipeline.fit(X_train, y_train)
 
-print(f"Test score: {LR_pipeline.score(X_train, y_train)}")
-print(f"Normal Least Squares: {LR_pipeline.score(X_test, y_test)}")
-
+print("Normal Least Squars")
+print(f"Test Score: {LR_pipeline.score(X_train, y_train)}")
+print(f"Train Score: {LR_pipeline.score(X_test, y_test)}")
+print("\n")
 lasso = Lasso(alpha=100)
 
 lasso_pipeline = Pipeline(steps=[
@@ -56,8 +57,9 @@ lasso_pipeline = Pipeline(steps=[
 
 lasso_pipeline.fit(X_train, y_train)
 
-print(f"Test score: {lasso_pipeline.score(X_train, y_train)}")
-print(f"Lasso: {lasso_pipeline.score(X_test, y_test)}")
+print("Lasso Regularization")
+print(f"Test Score: {lasso_pipeline.score(X_train, y_train)}")
+print(f"Train Score: {lasso_pipeline.score(X_test, y_test)}")
 
 
 # ridge = RidgeCV(alphas=np.arange(1, 100, 5), scoring='r2', cv=10)
