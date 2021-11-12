@@ -30,7 +30,8 @@ X = houses.values[:, :-1]
 # X = X + (100*np.random.randn(X.shape[1]))
 y = houses.values[:, -1]
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.88, random_state=42)
+# RANDOM STATE 0 SHOWS A GOOD EXAMPLE
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.88, random_state=0)
 
 
 # Preprocessing. Scale Data and fill in missing values
@@ -60,7 +61,7 @@ print(f"Test Score: {LR_pipeline.score(X_train, y_train)}")
 print(f"Train Score: {LR_pipeline.score(X_test, y_test)}")
 print("\n")
 
-ridge = RidgeCV(alphas=np.linspace(0.00000001, 10, 1000), cv=2)
+ridge = RidgeCV(alphas=np.linspace(0.00000001, 10, 1000), cv=3)
 ridge_pipeline = Pipeline(steps=[
     ('preprocess', numeric_pipeline),
     ('model', ridge)
