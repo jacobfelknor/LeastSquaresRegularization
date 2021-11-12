@@ -58,8 +58,8 @@ LR_pipeline = Pipeline(steps=[
 LR_pipeline.fit(X_train, y_train)
 
 print(f"Normal Least Squares, Features Used: {X_train.shape[1]}")
-print(f"Test Score: {LR_pipeline.score(X_train, y_train)}")
-print(f"Train Score: {LR_pipeline.score(X_test, y_test)}")
+print(f"Train Score: {LR_pipeline.score(X_train, y_train)}")
+print(f"Test Score: {LR_pipeline.score(X_test, y_test)}")
 print("\n")
 
 ridge = RidgeCV(alphas=np.linspace(0.00000001, 10, 1000), cv=3)
@@ -71,8 +71,8 @@ ridge_pipeline = Pipeline(steps=[
 ridge_pipeline.fit(X_train, y_train)
 nonzero_coeff = np.count_nonzero(ridge.coef_)
 print(f"Ridge Regularization, alpha={ridge.alpha_}, Features Used: {nonzero_coeff}")
-print(f"Test Score: {ridge_pipeline.score(X_train, y_train)}")
-print(f"Train Score: {ridge_pipeline.score(X_test, y_test)}")
+print(f"Train Score: {ridge_pipeline.score(X_train, y_train)}")
+print(f"Test Score: {ridge_pipeline.score(X_test, y_test)}")
 print("\n")
 
 
@@ -86,8 +86,8 @@ lasso_pipeline = Pipeline(steps=[
 lasso_pipeline.fit(X_train, y_train)
 nonzero_coeff = np.count_nonzero(lasso.coef_)
 print(f"Lasso Regularization {lasso.alpha_}, Features Used: {nonzero_coeff}")
-print(f"Test Score: {lasso_pipeline.score(X_train, y_train)}")
-print(f"Train Score: {lasso_pipeline.score(X_test, y_test)}")
+print(f"Train Score: {lasso_pipeline.score(X_train, y_train)}")
+print(f"Test Score: {lasso_pipeline.score(X_test, y_test)}")
 
 
 # ridge = RidgeCV(alphas=np.arange(1, 100, 5), scoring='r2', cv=10)
