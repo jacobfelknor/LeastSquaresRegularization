@@ -31,7 +31,8 @@ X = houses.values[:, :-1]
 y = houses.values[:, -1]
 
 # RANDOM STATES [0,12312] SHOW A GOOD EXAMPLE
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.88, random_state=12312)
+# STATE 12313 shows an extreme case
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.88, random_state=12313)
 
 
 # Preprocessing. Scale Data and fill in missing values
