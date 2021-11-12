@@ -76,7 +76,8 @@ print(f"Train Score: {ridge_pipeline.score(X_test, y_test)}")
 print("\n")
 
 
-lasso = LassoCV(alphas=np.linspace(1, 500, 1000), cv=2)
+lasso = LassoCV(alphas=np.linspace(500, 1500, 1000), cv=2) # for extreme case
+# lasso = LassoCV(alphas=np.linspace(1, 500, 1000), cv=2) # for other staes
 lasso_pipeline = Pipeline(steps=[
     ('preprocess', numeric_pipeline),
     ('model', lasso)
