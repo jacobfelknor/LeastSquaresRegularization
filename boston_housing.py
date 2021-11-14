@@ -16,30 +16,25 @@ import numpy as np
 import pandas as pd
 from sklearn import linear_model
 from sklearn.impute import SimpleImputer
-from sklearn.linear_model import (Lasso, LassoCV, LinearRegression, Ridge,
-                                  RidgeCV)
+from sklearn.linear_model import Lasso, LassoCV, LinearRegression, Ridge, RidgeCV
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
 
-houses = pd.read_csv('data/train.csv').select_dtypes(include=np.number)
-# houses.select_dtypes(include=np.number)
+houses = pd.read_csv("data/train.csv").select_dtypes(include=np.number)
+# print(houses.shape)
 # print(houses.head())
 
-X = houses.values[:, :-1]
-# X = X + (100*np.random.randn(X.shape[1]))
-y = houses.values[:, -1]
+X = houses.values[:, 1:-1]  # remove the cost of the house and the "ID" field
+y = houses.values[:, -1]  # extract housing costs from test data
 
 # RANDOM STATES [0,12312] SHOW A GOOD EXAMPLE
 # STATE 12313 shows an extreme case
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.88, random_state=12313)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.9, random_state=0)
 
 
 # Preprocessing. Scale Data and fill in missing values
-numeric_pipeline = Pipeline(steps=[
-    ('impute', SimpleImputer(strategy='mean')),
-    ('scale', MinMaxScaler())
-])
+numeric_pipeline = Pipeline(steps=[("impute", SimpleImputer(strategy="mean")), ("scale", MinMaxScaler())])
 
 # categorical_pipeline = Pipeline(steps=[
 #     ('impute', SimpleImputer(strategy='most_frequent')),
@@ -50,11 +45,7 @@ numeric_pipeline = Pipeline(steps=[
 # Models below
 lin_reg = LinearRegression()
 
-LR_pipeline = Pipeline(steps=[
-    ('preprocess', numeric_pipeline),
-    ('model', lin_reg)
-])
-
+LR_pipeline = Pipeline(steps=[("preprocess", numeric_pipeline), ("model", lin_reg)])
 LR_pipeline.fit(X_train, y_train)
 
 print(f"Normal Least Squares, Features Used: {X_train.shape[1]}")
@@ -63,10 +54,7 @@ print(f"Test Score: {LR_pipeline.score(X_test, y_test)}")
 print("\n")
 
 ridge = RidgeCV(alphas=np.linspace(0.00000001, 10, 1000), cv=3)
-ridge_pipeline = Pipeline(steps=[
-    ('preprocess', numeric_pipeline),
-    ('model', ridge)
-])
+ridge_pipeline = Pipeline(steps=[("preprocess", numeric_pipeline), ("model", ridge)])
 
 ridge_pipeline.fit(X_train, y_train)
 nonzero_coeff = np.count_nonzero(ridge.coef_)
@@ -76,12 +64,9 @@ print(f"Test Score: {ridge_pipeline.score(X_test, y_test)}")
 print("\n")
 
 
-lasso = LassoCV(alphas=np.linspace(500, 1500, 1000), cv=2) # for extreme case
-# lasso = LassoCV(alphas=np.linspace(1, 500, 1000), cv=2) # for other staes
-lasso_pipeline = Pipeline(steps=[
-    ('preprocess', numeric_pipeline),
-    ('model', lasso)
-])
+lasso = LassoCV(alphas=np.linspace(500, 1500, 1000), cv=2)  # for extreme case
+# lasso = LassoCV(alphas=np.linspace(1, 500, 1000), cv=2)  # for other states
+lasso_pipeline = Pipeline(steps=[("preprocess", numeric_pipeline), ("model", lasso)])
 
 lasso_pipeline.fit(X_train, y_train)
 nonzero_coeff = np.count_nonzero(lasso.coef_)
