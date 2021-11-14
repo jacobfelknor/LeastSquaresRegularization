@@ -1,6 +1,4 @@
 import numpy as np
-from scipy.sparse import dia
-from scipy.sparse.construct import rand
 from sklearn.datasets import load_diabetes
 from sklearn.linear_model import Lasso, LinearRegression, Ridge
 from sklearn.model_selection import train_test_split
