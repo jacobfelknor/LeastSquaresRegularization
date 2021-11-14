@@ -15,7 +15,7 @@ class Ridge:
         self.R2 = None
 
     def fit(self, X: np.array, y: np.array):
-        # calculate the weights for this model using normal equations
+        # calculate the weights for this model using modified normal equations
         self.weights = np.linalg.solve((X.T @ X) + self.alpha * np.identity(X.shape[1]), X.T @ y)
 
         # for compatibility with sklearn's Ridge

@@ -52,30 +52,34 @@ LR_pipeline = Pipeline(steps=[("preprocess", numeric_pipeline), ("model", lin_re
 LR_pipeline.fit(X_train, y_train)
 
 print(f"Normal Least Squares, Features Used: {X_train.shape[1]}")
+print(f"L2 norm of feature weights: {np.linalg.norm(lin_reg.weights)}")
+print(f"L1 norm of feature weights: {np.linalg.norm(lin_reg.weights, ord=1)}")
 print(f"Train Score: {LR_pipeline.score(X_train, y_train)}")
 print(f"Test Score: {LR_pipeline.score(X_test, y_test)}")
 print("\n")
 
-# ridge = RidgeCV(alphas=np.linspace(0.00000001, 10, 1000), cv=3)
+# ridge = RidgeCV(alphas=np.linspace(0.00000001, 10, 1000), cv=5)
 # TODO: write custom CV solution
-ridge = Ridge(alpha=1.27)
+ridge = Ridge(alpha=1.27127128)
 ridge_pipeline = Pipeline(steps=[("preprocess", numeric_pipeline), ("model", ridge)])
 
 ridge_pipeline.fit(X_train, y_train)
 nonzero_coeff = np.count_nonzero(ridge.coef_)
 print(f"Ridge Regularization, alpha={ridge.alpha}, Features Used: {nonzero_coeff}")
+print(f"L2 norm of feature weights: {np.linalg.norm(ridge.coef_)}")
 print(f"Train Score: {ridge_pipeline.score(X_train, y_train)}")
 print(f"Test Score: {ridge_pipeline.score(X_test, y_test)}")
 print("\n")
 
 
 # lasso = LassoCV(alphas=np.linspace(500, 1500, 1000), cv=2)  # for extreme case
-lasso = LassoCV(alphas=np.linspace(1, 500, 1000), cv=2)  # for other states
+lasso = LassoCV(alphas=np.linspace(1, 500, 1000), cv=5)  # for other states
 lasso_pipeline = Pipeline(steps=[("preprocess", numeric_pipeline), ("model", lasso)])
 
 lasso_pipeline.fit(X_train, y_train)
 nonzero_coeff = np.count_nonzero(lasso.coef_)
 print(f"Lasso Regularization, alpha={lasso.alpha_}, Features Used: {nonzero_coeff}")
+print(f"L1 norm of feature weights: {np.linalg.norm(lasso.coef_, ord=1)}")
 print(f"Train Score: {lasso_pipeline.score(X_train, y_train)}")
 print(f"Test Score: {lasso_pipeline.score(X_test, y_test)}")
 
